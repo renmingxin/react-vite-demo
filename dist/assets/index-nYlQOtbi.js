@@ -1,0 +1,1 @@
+import{r as e,x as n}from"./index-B260dPRc.js";function u(){const[t,s]=e.useState(0),r=e.useRef(0);return e.useEffect(()=>{r.current=t}),n.jsxs("div",{children:[n.jsx("button",{onClick:()=>s(t+1),children:"+"}),"当前值: ",t,"，上一次值: ",r.current]})}export{u as default};

@@ -1,0 +1,1 @@
+(function(){"use strict";self.onmessage=o=>{const s=o.data;let n=0;for(let t=1;t<=s;t++)if(n+=t,t%1e6===0){const e=t;setTimeout(()=>{u(e,s,n)},0);return}self.postMessage(n)};function u(o,s,n){let t=n;for(let e=o+1;e<=s;e++)if(t+=e,e%1e6===0){const r=e;setTimeout(()=>{u(r,s,t)},0);return}self.postMessage(t)}})();

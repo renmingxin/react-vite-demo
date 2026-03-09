@@ -1,0 +1,16 @@
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.container {
+  max-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  :global(.ant-dropdown-menu-title-content) {
+    width: 100%;
+  }
+  .item {
+    .ellipsis();
+  }
+}
