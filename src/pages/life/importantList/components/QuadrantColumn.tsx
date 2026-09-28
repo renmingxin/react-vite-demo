@@ -15,6 +15,13 @@ interface Props {
   onDelete: (task: TaskItemType) => void;
   onToggleComplete: (task: TaskItemType) => void;
   onMoveTask: (taskId: string, from: QuadrantKey, to: QuadrantKey) => void;
+  onReorder: (
+    dragIndex: number,
+    hoverIndex: number,
+    quadrant: QuadrantKey,
+  ) => void;
+  onMoveToTop: (task: TaskItemType) => void;
+  onMoveToBottom: (task: TaskItemType) => void;
 }
 
 const QuadrantColumn: React.FC<Props> = ({
@@ -25,6 +32,9 @@ const QuadrantColumn: React.FC<Props> = ({
   onDelete,
   onToggleComplete,
   onMoveTask,
+  onReorder,
+  onMoveToTop,
+  onMoveToBottom,
 }) => {
   const meta = QUADRANT_MAP[quadrantKey];
 
@@ -93,13 +103,18 @@ const QuadrantColumn: React.FC<Props> = ({
             style={{ opacity: 0.6, marginTop: 24 }}
           />
         ) : (
-          tasks.map((t) => (
+          tasks.map((t, idx) => (
             <TaskItem
               key={t.id}
               task={t}
+              index={idx}
               onEdit={onEdit}
               onDelete={onDelete}
               onToggleComplete={onToggleComplete}
+              onMoveTask={onMoveTask}
+              onReorder={onReorder}
+              onMoveToTop={onMoveToTop}
+              onMoveToBottom={onMoveToBottom}
             />
           ))
         )}

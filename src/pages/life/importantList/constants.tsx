@@ -70,3 +70,15 @@ export const STORAGE_KEY = "importantList:tasks:v1";
 
 // 拖拽 MIME 类型
 export const DRAG_MIME = "application/x-importantlist-task";
+
+// 分类主题色板（新建/编辑分类时可选）
+export const CATEGORY_COLORS = [
+  "#1677ff",
+  "#52c41a",
+  "#fa8c16",
+  "#eb2f96",
+  "#722ed1",
+  "#13c2c2",
+  "#f5222d",
+  "#8c8c8c",
+];
