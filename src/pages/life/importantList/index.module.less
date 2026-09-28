@@ -1,0 +1,301 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: calc(100vh - 64px - 48px);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f1f1f;
+    margin: 0;
+  }
+
+  .desc {
+    color: #8c8c8c;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 16px;
+    color: #595959;
+    font-size: 13px;
+
+    .statItem {
+      background: #f5f5f5;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.matrix {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  min-height: 600px;
+}
+
+.quadrantColumn {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &.dropActive {
+    box-shadow: 0 0 0 3px rgba(82, 196, 26, 0.4);
+    transform: scale(1.005);
+  }
+}
+
+/* ==================== 象限标题（比正文大、更醒目） ==================== */
+.quadrantHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .quadrantTitle {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  /* 图标放在彩色圆底里 */
+  .quadrantIcon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 17px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .quadrantText {
+    min-width: 0;
+  }
+
+  .quadrantName {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1f1f1f;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+
+  .quadrantSubtitle {
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #8c8c8c;
+    line-height: 1.4;
+  }
+
+  .quadrantBadge {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+}
+
+.quadrantList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* 项与项之间明确留白 */
+  gap: 10px;
+  padding: 2px;
+}
+
+/* ==================== 单条任务卡片 ==================== */
+.taskItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 12px;
+  /* 背景跟随所属象限（CSS 变量由组件注入），拖动换象限后立即变色 */
+  background: var(--quadrant-bg, #ffffff);
+  border: 1px solid #f0f0f0;
+  border-left: 4px solid #d9d9d9;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: background 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  user-select: text;
+
+  &:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    border-color: #e8e8e8;
+  }
+
+  &.isDragging {
+    opacity: 0.4;
+  }
+
+  &.isCompleted {
+    background: #f6ffed;
+
+    .taskTitle {
+      color: #8c8c8c;
+      text-decoration: line-through;
+    }
+
+    .taskDesc {
+      color: #bfbfbf;
+    }
+  }
+
+  /* 提醒状态只用边框色体现，不覆盖背景，保证背景始终反映所属象限 */
+  &.remindSoon {
+    border-color: #ffd591;
+    box-shadow: 0 1px 2px rgba(250, 173, 20, 0.15);
+  }
+
+  &.remindOverdue {
+    border-color: #ffa39e;
+    box-shadow: 0 1px 2px rgba(255, 77, 79, 0.15);
+  }
+
+  /* 复选框：与标题同行 */
+  .taskCheck {
+    flex-shrink: 0;
+    margin-top: 2px;
+
+    :global(.ant-checkbox-inner) {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+  }
+
+  /* 内容区 */
+  .taskContent {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .taskTopline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .taskTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #262626;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .taskTags {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+
+    .remindTag {
+      margin: 0 !important;
+      font-size: 12px;
+      line-height: 20px;
+      padding: 0 8px;
+      border-radius: 10px;
+    }
+  }
+
+  .taskDesc {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #8c8c8c;
+    line-height: 1.6;
+    word-break: break-word;
+    /* 与标题在字号、颜色、字重上明显区分 */
+    padding-left: 1px;
+  }
+
+  /* 操作区 */
+  .taskActions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    .actionBtn {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #8c8c8c;
+      border-radius: 6px;
+
+      &:hover {
+        color: #262626;
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    .dragHandle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 30px;
+      color: #bfbfbf;
+      cursor: grab;
+      border-radius: 6px;
+      transition: color 0.15s ease, background 0.15s ease;
+      touch-action: none;
+      font-size: 14px;
+
+      &:hover {
+        color: #595959;
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      &:active {
+        cursor: grabbing;
+        color: #262626;
+        background: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .matrix {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, minmax(200px, 1fr));
+    min-height: unset;
+  }
+}

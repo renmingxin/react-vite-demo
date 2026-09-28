@@ -10,6 +10,10 @@ const TravelCuangxi = LazyLoadComponent(
   () =>
     import(/* webpackChunkName: "RMX-TravelCuangxi" */ "@/pages/life/travel")
 );
+const ImportantList = LazyLoadComponent(
+  () =>
+    import(/* webpackChunkName: "RMX-ImportantList" */ "@/pages/life/importantList")
+);
 const DropDown = LazyLoadComponent(
   () =>
     import(
@@ -115,6 +119,7 @@ function App() {
           />
           <Route path="/work/bpm-dataQuery-tree" element={<DataQueryTree />} />
           <Route path="/life/travelCuangxi" element={<TravelCuangxi />} />
+          <Route path="/life/importantList" element={<ImportantList />} />
         </Route>
       </Routes>
     </Router>

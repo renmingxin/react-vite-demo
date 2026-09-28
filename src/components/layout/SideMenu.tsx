@@ -79,7 +79,11 @@ const menuItems = [
     key: "life",
     icon: <TeamOutlined />,
     label: "生活",
-    children: [{ key: "/life/travelCuangxi", label: "川西" }],
+    children: [
+      { key: "/life/importantList", label: "事项列表" },
+      { key: "/life/travelCuangxi", label: "旅游" },
+
+    ],
   },
 ];
 
