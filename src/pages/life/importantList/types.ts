@@ -5,11 +5,12 @@ export type QuadrantKey =
   | "urgentNotImportant" // 不重要但紧急
   | "notUrgentNotImportant"; // 不重要也不紧急
 
-/** 清单/分类（生活、工作、学习…可自定义增删） */
+/** 清单/分类（生活、工作、学习…可自定义增删、拖拽排序） */
 export interface Category {
   id: string;
   name: string;
   color: string; // 分类主题色（用于标签）
+  order?: number; // 展示顺序（越小越靠前，拖拽排序使用）
   createdAt: string;
 }
 

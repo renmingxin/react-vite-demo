@@ -17,6 +17,7 @@ import {
   tasksByQuadrantSelector,
   taskStatsSelector,
   categoryCountsSelector,
+  orderedCategoriesSelector,
 } from "./store";
 import type {
   Category,
@@ -27,7 +28,11 @@ import type {
 } from "./types";
 import { QUADRANTS } from "./constants";
 import { genId } from "./utils/storage";
-import { reorderQuadrant, reorderByIndex } from "./utils/reorder";
+import {
+  reorderQuadrant,
+  reorderByIndex,
+  reorderCategories,
+} from "./utils/reorder";
 import {
   useReminderWatcher,
   ensureNotificationPermission,
@@ -47,6 +52,8 @@ const ImportantList: React.FC = () => {
   const grouped = useRecoilValue(tasksByQuadrantSelector);
   const stats = useRecoilValue(taskStatsSelector);
   const counts = useRecoilValue(categoryCountsSelector);
+  // 分类按展示顺序排列（拖拽排序后即为该顺序）
+  const orderedCategories = useRecoilValue(orderedCategoriesSelector);
 
   // 启动后台提醒巡检（扫描所有分类，切到其他分类也能收到提醒）
   useReminderWatcher();
@@ -287,6 +294,14 @@ const ImportantList: React.FC = () => {
     [setActiveCategoryId],
   );
 
+  // 分类标签拖拽排序（hover 时实时重排）
+  const handleReorderCategories = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      setCategories((prev) => reorderCategories(prev, dragIndex, hoverIndex));
+    },
+    [setCategories],
+  );
+
   const handleCreateCategory = useCallback(() => {
     setEditingCategory(undefined);
     setCatModalOpen(true);
@@ -309,10 +324,16 @@ const ImportantList: React.FC = () => {
         );
         message.success("已保存分类");
       } else {
+        // 新分类排到最后
+        const maxOrder = categories.reduce(
+          (max, c) => Math.max(max, c.order ?? -1),
+          -1,
+        );
         const item: Category = {
           id: genId("cat"),
           name: values.name,
           color: values.color,
+          order: maxOrder + 1,
           createdAt: new Date().toISOString(),
         };
         setCategories((prev) => [...prev, item]);
@@ -421,13 +442,14 @@ const ImportantList: React.FC = () => {
 
         {/* 分类切换栏 */}
         <CategoryBar
-          categories={categories}
+          categories={orderedCategories}
           activeId={activeCategoryId}
           counts={counts}
           onSelect={handleSelectCategory}
           onCreate={handleCreateCategory}
           onRename={handleRenameCategory}
           onDelete={handleDeleteCategory}
+          onReorder={handleReorderCategories}
         />
 
         {/* 当前分类提示 */}

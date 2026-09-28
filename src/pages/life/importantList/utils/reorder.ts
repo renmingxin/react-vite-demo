@@ -1,4 +1,42 @@
-import type { QuadrantKey, TaskItem } from "../types";
+import type { Category, QuadrantKey, TaskItem } from "../types";
+
+/** 分类展示顺序：有 order 按 order 升序，否则按创建时间升序 */
+export const sortCategories = (list: Category[]): Category[] =>
+  [...list].sort((a, b) => {
+    const ao = a.order;
+    const bo = b.order;
+    if (ao !== undefined && bo !== undefined) return ao - bo;
+    if (ao !== undefined) return -1;
+    if (bo !== undefined) return 1;
+    return a.createdAt.localeCompare(b.createdAt);
+  });
+
+/**
+ * 分类标签拖拽排序：把 dragIndex 位置的分类移动到 hoverIndex 位置，
+ * 移动后重新编号 order（0,1,2...），保证顺序稳定。
+ */
+export const reorderCategories = (
+  categories: Category[],
+  dragIndex: number,
+  hoverIndex: number,
+): Category[] => {
+  const ordered = sortCategories(categories);
+  if (dragIndex === hoverIndex) return categories;
+  if (
+    dragIndex < 0 ||
+    dragIndex >= ordered.length ||
+    hoverIndex < 0 ||
+    hoverIndex >= ordered.length
+  ) {
+    return categories;
+  }
+
+  const next = [...ordered];
+  const [moved] = next.splice(dragIndex, 1);
+  next.splice(hoverIndex, 0, moved);
+
+  return next.map((c, idx) => (c.order === idx ? c : { ...c, order: idx }));
+};
 
 /** 按当前生效顺序取出「某分类下某象限」的任务（已完成沉底，其余按 order 升序） */
 const getOrderedPeers = (

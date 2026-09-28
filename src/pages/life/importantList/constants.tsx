@@ -70,6 +70,7 @@ export const STORAGE_KEY = "importantList:tasks:v1";
 
 // 拖拽 MIME 类型
 export const DRAG_MIME = "application/x-importantlist-task";
+export const CATEGORY_DRAG_MIME = "application/x-importantlist-category";
 
 // 分类主题色板（新建/编辑分类时可选）
 export const CATEGORY_COLORS = [

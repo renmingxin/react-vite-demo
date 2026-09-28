@@ -60,7 +60,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 10px;
+  padding: 5px 10px 5px 6px;
   border: 1px solid #e8e8e8;
   border-radius: 16px;
   background: #fafafa;
@@ -81,6 +81,36 @@
     background: #ffffff;
     font-weight: 600;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  /* 拖动中：虚线占位框，提示松手后的落点 */
+  &.catChipDragging {
+    opacity: 0.55;
+    border-style: dashed;
+    border-color: var(--cat-color);
+  }
+}
+
+/* 分类拖拽手柄：只有这里显示拖动光标 */
+.catHandle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 3px;
+  border-radius: 4px;
+  color: #bfbfbf;
+  cursor: grab;
+  font-size: 12px;
+  touch-action: none;
+  transition: color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: #595959;
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  &:active {
+    cursor: grabbing;
   }
 }
 
@@ -122,6 +152,7 @@
   height: 18px;
   border-radius: 50%;
   color: #8c8c8c;
+  cursor: pointer;
   opacity: 0;
   transition: opacity 0.15s ease, background 0.15s ease;
 

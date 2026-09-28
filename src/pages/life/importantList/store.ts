@@ -8,6 +8,7 @@ import {
   saveCategories,
   saveTasks,
 } from "./utils/storage";
+import { sortCategories } from "./utils/reorder";
 
 // 任务列表（持久化到 localStorage）
 export const tasksState = atom<TaskItem[]>({
@@ -122,4 +123,10 @@ export const categoryCountsSelector = selector<Record<string, number>>({
     });
     return counts;
   },
+});
+
+// 分类按展示顺序排列（拖拽排序后即为此顺序）
+export const orderedCategoriesSelector = selector<Category[]>({
+  key: "importantList/orderedCategoriesSelector",
+  get: ({ get }) => sortCategories(get(categoriesState)),
 });
