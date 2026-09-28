@@ -33,6 +33,7 @@ export interface TaskFormValues {
   title: string;
   description?: string;
   quadrant: QuadrantKey;
+  categoryId?: string; // 所属分类（编辑时可移动）
   remindAt?: string;
 }
 

@@ -4,14 +4,24 @@ import {
   Form,
   Input,
   Radio,
+  Select,
   DatePicker,
   message,
   Tooltip,
   Button,
 } from "antd";
-import { BellOutlined, NotificationOutlined } from "@ant-design/icons";
+import {
+  BellOutlined,
+  NotificationOutlined,
+  FolderOutlined,
+} from "@ant-design/icons";
 import dayjs, { type Dayjs } from "dayjs";
-import type { QuadrantKey, TaskFormValues, TaskItem } from "../types";
+import type {
+  Category,
+  QuadrantKey,
+  TaskFormValues,
+  TaskItem,
+} from "../types";
 import { QUADRANTS } from "../constants";
 import { ensureNotificationPermission } from "../hooks/useReminder";
 
@@ -21,6 +31,8 @@ interface Props {
   editing?: TaskItem;
   /** 新增时的默认象限（来自某列的 +） */
   defaultQuadrant?: QuadrantKey;
+  /** 全部分类（编辑时可移动分类） */
+  categories: Category[];
   onCancel: () => void;
   onSubmit: (values: TaskFormValues, editingId?: string) => void;
 }
@@ -29,6 +41,7 @@ interface FormValues {
   title: string;
   description?: string;
   quadrant: QuadrantKey;
+  categoryId?: string;
   remindAt?: Dayjs;
 }
 
@@ -36,6 +49,7 @@ const TaskFormModal: React.FC<Props> = ({
   open,
   editing,
   defaultQuadrant,
+  categories,
   onCancel,
   onSubmit,
 }) => {
@@ -48,6 +62,7 @@ const TaskFormModal: React.FC<Props> = ({
         title: editing!.title,
         description: editing!.description,
         quadrant: editing!.quadrant,
+        categoryId: editing!.categoryId,
         remindAt: editing!.remindAt ? dayjs(editing!.remindAt) : undefined,
       }
     : {
@@ -68,8 +83,10 @@ const TaskFormModal: React.FC<Props> = ({
       const payload: TaskFormValues = {
         title,
         description: values.description?.trim() || undefined,
-        // 编辑时象限锁定，仍以原象限提交（防止被篡改）
+        // 编辑时象限锁定，仍以原象限提交
         quadrant: editing ? editing.quadrant : values.quadrant,
+        // 编辑时可切换到其他分类
+        categoryId: isEdit ? values.categoryId : undefined,
         remindAt: values.remindAt ? values.remindAt.toISOString() : undefined,
       };
       onSubmit(payload, editing?.id);
@@ -120,6 +137,7 @@ const TaskFormModal: React.FC<Props> = ({
             title: editing.title,
             description: editing.description,
             quadrant: editing.quadrant,
+            categoryId: editing.categoryId,
             remindAt: editing.remindAt ? dayjs(editing.remindAt) : undefined,
           });
         } else {
@@ -153,6 +171,46 @@ const TaskFormModal: React.FC<Props> = ({
             showCount
           />
         </Form.Item>
+
+        {/* 所属分类：仅编辑时可选，可把事项移动到其他分类 */}
+        {isEdit && (
+          <Form.Item
+            label={
+              <span>
+                <FolderOutlined style={{ marginRight: 6 }} />
+                所属分类
+              </span>
+            }
+            name="categoryId"
+            rules={[{ required: true, message: "请选择分类" }]}
+            tooltip="可以把该事项移动到其他分类清单中"
+          >
+            <Select
+              options={categories.map((c) => ({
+                value: c.id,
+                label: (
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: "50%",
+                        background: c.color,
+                      }}
+                    />
+                    {c.name}
+                  </span>
+                ),
+              }))}
+            />
+          </Form.Item>
+        )}
 
         <Form.Item
           label="所属象限"

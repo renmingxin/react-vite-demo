@@ -188,14 +188,47 @@ const ImportantList: React.FC = () => {
     (values: TaskFormValues, editingId?: string) => {
       const now = new Date().toISOString();
       if (editingId) {
-        setTasks((prev) =>
-          prev.map((t) =>
+        let movedToName: string | undefined;
+        setTasks((prev) => {
+          const target = prev.find((t) => t.id === editingId);
+          if (!target) return prev;
+
+          const nextCategoryId = values.categoryId || target.categoryId;
+          const categoryChanged = nextCategoryId !== target.categoryId;
+
+          // 换了分类：序号要按新分类重新算，排到新分类该象限最前
+          let nextOrder = target.order;
+          if (categoryChanged) {
+            const peers = prev.filter(
+              (t) =>
+                t.categoryId === nextCategoryId &&
+                t.quadrant === target.quadrant,
+            );
+            nextOrder =
+              peers.reduce((min, t) => Math.min(min, t.order ?? 0), 0) - 1;
+            movedToName = categories.find((c) => c.id === nextCategoryId)?.name;
+          }
+
+          return prev.map((t) =>
             t.id === editingId
-              ? { ...t, ...values, notified: false, updatedAt: now }
+              ? {
+                  ...t,
+                  title: values.title,
+                  description: values.description,
+                  categoryId: nextCategoryId,
+                  // 象限保持锁定，不随表单变化
+                  quadrant: t.quadrant,
+                  remindAt: values.remindAt,
+                  order: nextOrder,
+                  notified: false,
+                  updatedAt: now,
+                }
               : t,
-          ),
+          );
+        });
+        message.success(
+          movedToName ? `已移动到「${movedToName}」分类` : "已保存修改",
         );
-        message.success("已保存修改");
       } else {
         setTasks((prev) => {
           // 排在当前分类当前象限最前
@@ -228,7 +261,7 @@ const ImportantList: React.FC = () => {
       setModalOpen(false);
       setEditing(undefined);
     },
-    [setTasks, activeCategoryId],
+    [setTasks, activeCategoryId, categories],
   );
 
   // 只清除「当前分类」的已完成事项
@@ -433,6 +466,7 @@ const ImportantList: React.FC = () => {
           open={modalOpen}
           editing={editing}
           defaultQuadrant={defaultQuadrant}
+          categories={categories}
           onCancel={() => {
             setModalOpen(false);
             setEditing(undefined);
