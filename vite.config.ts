@@ -6,6 +6,7 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true, // 监听 0.0.0.0，允许容器外（宿主机浏览器）访问
     headers: {
       "Access-Control-Allow-Origin": "*", // 允许跨域，微前端必备
     },

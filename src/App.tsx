@@ -61,6 +61,13 @@ const TransferDemo = LazyLoadComponent(
     )
 );
 
+const SdkDemo = LazyLoadComponent(
+  () =>
+    import(
+      /* webpackChunkName: "RMX-SdkDemo" */ "@/pages/study/sdk"
+    )
+);
+
 const WorkingHours = LazyLoadComponent(
   () =>
     import(
@@ -103,6 +110,7 @@ function App() {
           <Route path="/study/ueseRef" element={<UeseRefDemo />} />
           <Route path="/study/transfer" element={<TransferDemo />} />
           <Route path="/study/recoil" element={<RecoilDemo />} />
+          <Route path="/study/sdk" element={<SdkDemo />} />
 
           <Route path="/work/dropDown" element={<DropDown />} />
           <Route

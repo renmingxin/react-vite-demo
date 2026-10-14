@@ -1,0 +1,33 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "5734:5734"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./vite.config.ts:/app/vite.config.ts
+      - ./index.html:/app/index.html
+    develop:
+      watch:
+        - path: ./src
+          action: rebuild
+        - path: ./vite.config.ts
+          action: rebuild
+        - path: ./index.html
+          action: rebuild
+    environment:
+      - NODE_ENV=development
+
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    ports:
+      - "80:80"
+    profiles:
+      - prod

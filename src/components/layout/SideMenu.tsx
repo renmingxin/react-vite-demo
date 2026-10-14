@@ -35,7 +35,11 @@ const menuItems = [
       },
       {
         key: "/study/transfer",
-        label: "demo编写",
+        label: "文字省略折叠",
+      },
+      {
+        key: "/study/sdk",
+        label: "SDK编写",
       },
     ],
   },
