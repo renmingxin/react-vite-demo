@@ -80,6 +80,14 @@ const menuItems = [
     ],
   },
   {
+    key: "xiangmu",
+    icon: <TeamOutlined />,
+    label: "项目难点",
+    children: [
+      { key: "/xiangmu/approval", label: "OA运行态工作台" },
+    ],
+  },
+  {
     key: "life",
     icon: <TeamOutlined />,
     label: "生活",

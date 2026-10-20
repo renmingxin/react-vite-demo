@@ -92,6 +92,11 @@ const DataQueryTree = LazyLoadComponent(
     )
 );
 
+const OaApproval = LazyLoadComponent(
+  () =>
+    import(/* webpackChunkName: "RMX-OaApproval" */ "@/pages/xiangmu/oa-approval")
+);
+
 function App() {
   return (
     <Router>
@@ -128,6 +133,9 @@ function App() {
           <Route path="/work/bpm-dataQuery-tree" element={<DataQueryTree />} />
           <Route path="/life/travelCuangxi" element={<TravelCuangxi />} />
           <Route path="/life/importantList" element={<ImportantList />} />
+
+          <Route path="/xiangmu/approval" element={<OaApproval />} />
+
         </Route>
       </Routes>
     </Router>

@@ -1,0 +1,257 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---------------- header ---------------- */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.docTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.metaRow {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.headerHint {
+  font-size: 12px;
+  line-height: 20px;
+  color: #8c8c8c;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ---------------- toolbar ---------------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 20px;
+  background: #e8e8e8;
+  display: inline-block;
+}
+
+.toolbarStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+/* ---------------- layout ---------------- */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 12px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.main,
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ---------------- card ---------------- */
+.card {
+  padding: 12px 16px 16px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.cardExtra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.renderCounter {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  color: #8c8c8c;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+/* ---------------- form ---------------- */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: #595959;
+}
+
+/* ---------------- summary ---------------- */
+.summaryGroup {
+  margin-top: 12px;
+}
+
+.summaryGroupTitle {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #595959;
+}
+
+.summaryHighlight {
+  color: #cf1322;
+  font-weight: 600;
+}
+
+.summaryUpdated {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #bfbfbf;
+  text-align: right;
+}
+
+/* ---------------- lab ---------------- */
+.labInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #595959;
+}
+
+.labGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.labBox {
+  padding: 10px 12px;
+  background: #fafafa;
+  border: 1px dashed #e8e8e8;
+  border-radius: 6px;
+}
+
+.labTitle {
+  font-size: 12px;
+  color: #595959;
+  margin-bottom: 8px;
+}
+
+.labResult {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+  color: #1677ff;
+}
+
+/* ---------------- modal ---------------- */
+.modalMeta {
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  background: #fafafa;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.modalFooterHint {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #bfbfbf;
+}
+
+/* ---------------- event log ---------------- */
+.logList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.logItem {
+  display: flex;
+  gap: 8px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  line-height: 18px;
+  color: #595959;
+}
+
+.logTime {
+  color: #bfbfbf;
+  flex: none;
+}
+
+.logEvent {
+  color: #1677ff;
+  flex: none;
+}
+
+.logPayload {
+  color: #8c8c8c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
