@@ -41,6 +41,10 @@ const menuItems = [
         key: "/study/sdk",
         label: "SDK编写",
       },
+      {
+        key: "/study/useSyncExternalStore",
+        label: "useSyncExternalStore的最佳实践",
+      },
     ],
   },
 

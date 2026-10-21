@@ -68,6 +68,13 @@ const SdkDemo = LazyLoadComponent(
     )
 );
 
+const UseSyncExternalStoreDemo = LazyLoadComponent(
+  () =>
+    import(
+      /* webpackChunkName: "RMX-UseSyncExternalStoreDemo" */ "@/pages/study/useSyncExternalStore-demo"
+    )
+);
+
 const WorkingHours = LazyLoadComponent(
   () =>
     import(
@@ -116,6 +123,8 @@ function App() {
           <Route path="/study/transfer" element={<TransferDemo />} />
           <Route path="/study/recoil" element={<RecoilDemo />} />
           <Route path="/study/sdk" element={<SdkDemo />} />
+          <Route path="/study/useSyncExternalStore" element={<UseSyncExternalStoreDemo />} />
+
 
           <Route path="/work/dropDown" element={<DropDown />} />
           <Route
